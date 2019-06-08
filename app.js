@@ -10,13 +10,14 @@ app.use(express.static(__dirname + 'public'));
 
 
 app.get('/', (req, res) => {
-    res.send('Front page');
+    res.render('index');
 });
 app.get('/results', (req, res) => {
-    request('http://www.omdbapi.com/?s=guardians+of+the+galaxy&apikey=thewdb', (error, response, body) => {
+    const searchQuery = req.query.search;
+    request(`http://www.omdbapi.com/?s=${searchQuery}&apikey=thewdb`, (error, response, body) => {
         if(!error && response.statusCode === 200) {
             const data = JSON.parse(body);
-            res.render('results', {data: data});
+            res.render('results', {data: data, searchQuery: searchQuery});
         } else {
             console.log('error', error);
         }
@@ -25,7 +26,7 @@ app.get('/results', (req, res) => {
 
 
 app.get('*', (req, res) => {
-    res.send('404');
+    res.send('404 - Page not found <a href="/">Home</a>');
 });
 
 
