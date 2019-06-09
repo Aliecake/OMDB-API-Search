@@ -1,7 +1,7 @@
 <% include partials/header%>
 <h1>You Searched for <%= searchQuery.toUpperCase() %></h1>
 <% data['Search'].forEach((movie) => { %>
-    <li><%= movie['Title'] %></li>
+    <li><%= movie['Title'] %> - <%= movie['Year'] %> </li>
 <% }); %>
 <a href="/">Back to Search</a>
 <% include partials/footer %>
