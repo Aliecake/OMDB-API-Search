@@ -24,6 +24,18 @@ app.get('/results', (req, res) => {
     });
 });
 
+app.get('/results/:title', (req, res) => {
+    let title = req.params.title;
+    let searchPage = req.header('Referer');
+    request(`http://www.omdbapi.com/?t=${title}&apikey=thewdb`, (error, response, body) => {
+        if(!error && response.statusCode === 200) {
+            const data = JSON.parse(body);
+            res.render('title', {title: title, data: data, searchPage: searchPage})
+        } else {
+            console.log('error', error);
+        }
+    });
+});
 
 app.get('*', (req, res) => {
     res.send('404 - Page not found <a href="/">Home</a>');
